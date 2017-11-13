@@ -67,6 +67,8 @@ public class TareaADA {
   public static void main(String[] args) {
     String query = "acepta + elreto == mental";
     System.out.println(solve(query));
+
+    
   }
 }
 
