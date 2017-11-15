@@ -7,7 +7,7 @@ package tarea.ada;
 
 /**
  *
- * @author kusuxdsrtesdykgbh
+ * @author kusuxdsrtesdykgbh rsdtfyghi
  */
 
 public class TareaADA {
