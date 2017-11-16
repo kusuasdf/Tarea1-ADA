@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
  *
- * @author kusu
+ * @author que kusu?
  */
 
 public class XReader {
