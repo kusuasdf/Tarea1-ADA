@@ -65,9 +65,12 @@ public class TareaADA {
     return "";
   }
   public static void main(String[] args) {
-    String query = "acepta + elreto == mental";
+    /*String query = "acepta + elreto == mental";
     System.out.println(solve(query));
-
+*/
+    XReader xr=new XReader();
+    Lista lis = xr.lister(xr.read());
+    System.out.println(lis.toString());
     
   }
 }

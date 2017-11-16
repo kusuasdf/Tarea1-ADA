@@ -7,6 +7,7 @@ package tarea.ada;
  */
 import java.io.*;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -24,8 +25,9 @@ public class XReader {
         
         try {
             Scanner sc =new Scanner(irchivi);
+         String Trash = sc.nextLine();
             while (sc.hasNext()){
-               readed= readed.concat(sc.nextLine()+"\n");
+               readed= readed.concat(sc.nextLine());
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(XReader.class.getName()).log(Level.SEVERE, null, ex);
@@ -35,18 +37,34 @@ public class XReader {
     }
     Lista lister(String xml){
         Lista lista = new Lista();
+        xml=xml.replaceAll("<puzzle>", "");
+        xml=xml.replaceAll("</puzzle", ";");
+        xml=xml.replaceAll("<operacion>", "");
+        xml=xml.replaceAll("</operacion>", ";");
+        xml=xml.replaceAll("<operando>", "");
+        xml=xml.replaceAll("</operando>", "");
+        xml=xml.replaceAll("</operador>", "");
+        xml=xml.replaceAll("<operador>", "");
+        xml=xml.replaceAll("</resultado>", "");
+        xml=xml.replaceAll("<resultado>", "");
+        StringTokenizer tk= new StringTokenizer(xml,";", false);
         
-        
+        while(tk.hasMoreTokens()){
+            String aux =tk.nextToken();
+            if(!aux.isEmpty()){
+            lista.insert(aux);
+            }
+        }     
         return lista;
     }
     
 }
 
 class Nodo{
-	public int elemento;
+	public String elemento;
 	public Nodo sig;
 	
-	public Nodo(int x){
+	public Nodo(String x){
 		elemento = x;
 		sig = null;
 	}
@@ -72,7 +90,7 @@ class Lista{
 		inicio = null;
 	}
 	
-	public void insert(int x){
+	public void insert(String x){
 		Nodo nuevo = new Nodo(x);
 		if(inicio == null)
 			inicio = nuevo;
