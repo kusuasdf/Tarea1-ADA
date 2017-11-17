@@ -1,3 +1,4 @@
+
 package tarea.ada;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,14 +7,17 @@ import java.util.StringTokenizer;
 
 
 public class TareaADA {
+    //private static char caracterInicial,caracterPostOperacion,caracterPostResultado;
   public static int evaluar(String q) {
     int val = 0;
     StringTokenizer st = new StringTokenizer(q,"+*",true);
     while(st.hasMoreTokens()){
         String sig = st.nextToken().trim();
         if(sig.equals("+")){
+            //caracterPostOperacion = q.charAt(getPosicion(q,'+'));
             val+= Integer.parseInt(st.nextToken().trim());
         }else if(sig.equals("*")){
+            //caracterPostOperacion = q.charAt(getPosicion(q,'*'));
             val*= Integer.parseInt(st.nextToken().trim());
         }else{
             val = Integer.parseInt(sig);
@@ -30,69 +34,64 @@ public class TareaADA {
     }
     return 0;
   }
+  public static String resolver(String operando1,String operador,String operando2,String resultado){
+      String query = operando1+operador+operando2+"="+resultado;
+      return resolver(query);
+  }
  public static String resolver(String q) {
     char c = 0;
+    //caracteres que no pueden ser cero:
+    //caracterInicial = q.charAt(getPosicion(q,'0'));
+    //caracterPostResultado = q.charAt(getPosicion(q,'='));
+
+    
+    
     for (int i = 0; i < q.length(); ++i) {
-      if (Character.isAlphabetic(q.charAt(i))) {
-        c = q.charAt(i);
-        break;
-      }
+            if (Character.isAlphabetic(q.charAt(i))) {
+                c = q.charAt(i);
+                break;
+            }  
     }
+    
+
     if (c == 0) {
       String[] operaciones = q.split("=");
       int operandos = evaluar(operaciones[0]);
       int resultado = evaluar(operaciones[1]);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-      if (operandos == resultado) return q;
-      else return "";
-    } else {
-      char[] dset = new char[10]; //tamaño maximo de combinaciones (0-9)
+      if (operandos == resultado) 
+          return q;
+      else 
+          return "";
+    }else{
+      char[] combinaciones = new char[10]; 
       for (int i = 0; i < q.length(); ++i){
-          if(i!=getPosicion(q,'0') || i!=getPosicion(q,'+') || i!=getPosicion(q,'*') || i!=getPosicion(q,'=')){
               if (Character.isDigit(q.charAt(i))){
-                dset[q.charAt(i)-'0'] = 1;
+                combinaciones[q.charAt(i)-'0'] = 1;
               }
-          }else{
-            /*  if (Character.isDigit(q.charAt(i))){
-                dset[q.charAt(i)-'0'] = 0;
-              }*/
-          }
-          
       }
         
       for (int i = 0; i < 10; ++i) {
-        if (dset[i] == 0) {
+        if (combinaciones[i] == 0) {
           String r = resolver(q.replaceAll(String.valueOf(c), String.valueOf(i)));
           if (!r.isEmpty())
               return r;
         }
       }
-    }
+    } 
+    
     return "";
   }
   public static void main(String[] args) {
-      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-      String query = "";
-      //String query = "acepta + elreto = mental";
+      XReader xr= new XReader();
+      Lista l = xr.lister(xr.read());
+      StringTokenizer st = new StringTokenizer(l.toString(),"> ",false);
       try{
-            System.out.println("operando1:");
-            query+= br.readLine();
-            System.out.println("operador:");
-            query+= br.readLine();
-            System.out.println("operando2:");
-            query+= br.readLine();
-            System.out.println("resultado:");
-            query+= "="+br.readLine();
-
-      }catch(IOException ioe){
-      }try{
-           System.out.println(query+"\n\n");
-           //System.out.println("Posición: "+getPosicion(query,'0')+" caracter: "+ query.charAt(getPosicion(query,'0')));
-           //System.out.println("Posición: "+getPosicion(query,'+')+" caracter: "+ query.charAt(getPosicion(query,'+')));
-           //System.out.println("Posición: "+getPosicion(query,'=')+" caracter: "+ query.charAt(getPosicion(query,'=')));
-           System.out.println(resolver(query));
-
-      }catch(NumberFormatException nfe){
-      }catch(StringIndexOutOfBoundsException e){}
-
+          while(st.hasMoreTokens()){
+                System.out.println(resolver(st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken()));
+          }
+      }catch(StringIndexOutOfBoundsException e){
+          System.err.println(e.getMessage());
+      }
+          
   }
 }

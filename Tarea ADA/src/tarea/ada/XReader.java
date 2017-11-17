@@ -1,19 +1,10 @@
 package tarea.ada;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.io.*;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
- *
- * @author que kusu?
- */
 
 public class XReader {
     
@@ -23,11 +14,22 @@ public class XReader {
         
         File irchivi =new File("puzzle.xml");
         
-        try {
+       try {
             Scanner sc =new Scanner(irchivi);
          String Trash = sc.nextLine();
             while (sc.hasNext()){
-               readed= readed.concat(sc.nextLine());
+                String xml=sc.nextLine();
+                xml=xml.replaceAll("<puzzle>", "").trim();
+                xml=xml.replaceAll("</puzzle>", ";").trim();
+                xml=xml.replaceAll("<operacion>", "").trim();
+                xml=xml.replaceAll("</operacion>", ";").trim();
+                xml=xml.replaceAll("<operando>", "").trim();
+                xml=xml.replaceAll("</operando>", ";").trim();
+                xml=xml.replaceAll("</operador>", ";").trim();
+                xml=xml.replaceAll("<operador>", "").trim();
+                xml=xml.replaceAll("</resultado>", ";").trim();
+                xml=xml.replaceAll("<resultado>", "").trim();
+               readed= readed.concat(xml);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(XReader.class.getName()).log(Level.SEVERE, null, ex);
@@ -35,18 +37,24 @@ public class XReader {
         
         return readed;
     }
+      void escribir(String nombreArchivo, String frase)
+	{
+		File f = new File("solucion.xml");
+		try{
+			FileWriter fw = new FileWriter(f);
+			BufferedWriter bw = new BufferedWriter(fw);
+			PrintWriter pw = new PrintWriter(bw);
+			pw.append(frase + "\n"); //concatenamos en el archivo sin borrar lo existente
+			pw.close();
+			bw.close();
+			fw.close();
+		}
+		catch(IOException e){
+			System.out.println("Error: "+e.getMessage());
+		}
+	}
     Lista lister(String xml){
         Lista lista = new Lista();
-        xml=xml.replaceAll("<puzzle>", "");
-        xml=xml.replaceAll("</puzzle", ";");
-        xml=xml.replaceAll("<operacion>", "");
-        xml=xml.replaceAll("</operacion>", ";");
-        xml=xml.replaceAll("<operando>", "");
-        xml=xml.replaceAll("</operando>", "");
-        xml=xml.replaceAll("</operador>", "");
-        xml=xml.replaceAll("<operador>", "");
-        xml=xml.replaceAll("</resultado>", "");
-        xml=xml.replaceAll("<resultado>", "");
         StringTokenizer tk= new StringTokenizer(xml,";", false);
         
         while(tk.hasMoreTokens()){
@@ -57,8 +65,9 @@ public class XReader {
         }     
         return lista;
     }
-    
+     
 }
+
 
 class Nodo{
 	public String elemento;
@@ -71,7 +80,7 @@ class Nodo{
 	
         @Override
 	public String toString(){
-		return elemento+"--->";
+		return elemento+" ";
 	}
 	
         @Override
